@@ -1,7 +1,6 @@
 // write your code here to make the tests pass
 const Library = function () {
-  // eslint-disable-next-line no-var
-  var books = [
+  const books = [
     {
       title: 'The Tipping Point',
       author: 'Malcolm Gladwell',
@@ -19,17 +18,40 @@ const Library = function () {
   };
 
   const addBook = function (book) {
-    books.push(book);
+    return books.push(book);
+  };
+
+  const checkOutBook = function (book) {
+    for (let i = 0; i < books.length; i += 1) {
+      if (books[i].title === book.title && books[i].checkedOut === false) {
+        books[i].checkedOut = true;
+        return `You have checked out ${book.title}.`;
+      }
+    }
+  };
+
+  const returnBook = function (book) {
+    for (let i = 0; i < books.length; i += 1) {
+      if (books[i].title === book.title && books[i].checkedOut === true) {
+        books[i].checkedOut = false;
+        return `Thank you for returning ${book.title}.`;
+      }
+    }
   };
 
   return {
     viewBooks,
     addBook,
+    checkOutBook,
+    returnBook,
   };
 };
 
 const Book = function (title, author) {
   const getAttribute = function (attribute) {
+    if (attribute === 'checkedOut') {
+      return this[attribute];
+    }
     if (this[attribute]) {
       return this[attribute];
     }
@@ -53,9 +75,8 @@ const Book = function (title, author) {
 
 const myLibrary = Library();
 const myBook = Book('Catcher in the Rye', 'J.D. Salinger');
+const fakeBook = Book('Good Times', 'Eliza');
 myLibrary.addBook(myBook);
-myLibrary.viewBooks();
-console.log(myBook.getAttribute('title'));
-console.log(myBook.getAttribute('pages'));
-console.log(myBook.setAttribute('author', 'JJ Salleys'));
-console.log(myBook.setAttribute('pages', 110));
+console.log(fakeBook.getAttribute('checkedOut'), 'should be false');
+console.log(myLibrary.checkOutBook(fakeBook), 'did it check out');
+console.log(fakeBook.getAttribute('checkedOut'), 'should still be false');
