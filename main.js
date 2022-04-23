@@ -49,10 +49,7 @@ const Library = function () {
 
 const Book = function (title, author) {
   const getAttribute = function (attribute) {
-    if (attribute === 'checkedOut') {
-      return this[attribute];
-    }
-    if (this[attribute]) {
+    if (Object.prototype.hasOwnProperty.call(this, attribute)) {
       return this[attribute];
     }
   };
@@ -77,6 +74,5 @@ const myLibrary = Library();
 const myBook = Book('Catcher in the Rye', 'J.D. Salinger');
 const fakeBook = Book('Good Times', 'Eliza');
 myLibrary.addBook(myBook);
-console.log(fakeBook.getAttribute('checkedOut'), 'should be false');
-console.log(myLibrary.checkOutBook(fakeBook), 'did it check out');
-console.log(fakeBook.getAttribute('checkedOut'), 'should still be false');
+console.log(myLibrary.checkOutBook(fakeBook));
+console.log(fakeBook.getAttribute('checkedOut'));
