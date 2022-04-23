@@ -55,7 +55,7 @@ const Book = function (title, author) {
   };
 
   const setAttribute = function (attribute, value) {
-    if (this[attribute]) {
+    if (Object.prototype.hasOwnProperty.call(this, attribute)) {
       this[attribute] = value;
       return this[attribute];
     }
